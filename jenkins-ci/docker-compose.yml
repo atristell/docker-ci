@@ -1,0 +1,17 @@
+version: '3'
+services:
+  jenkins:
+    image: jenkinsci/blueocean:latest
+    user: root # Necesario para permisos demonio docker
+    volumes:
+      - ./jenkins_home:/var/jenkins_home # Jenkins Home
+      - ./npm_cache:/root/.npm # Node Cache
+      - ./cypress_cache:/root/.cache # Cypress Cache
+      - ./jenkins_scripts:/var/jenkins_scripts # Scripts Paths
+      - /var/run/docker.sock:/var/run/docker.sock # Docker evil
+    ports:
+      - 8080:8080
+    expose:
+      - 8080
+  
+
