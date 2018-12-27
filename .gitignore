@@ -1,1 +1,5 @@
 .DS_Store
+/jenkins-ci/jenkins_home
+/jenkins-ci/cypress_cache
+/jenkins-ci/npm_cache
+/composer_cache
