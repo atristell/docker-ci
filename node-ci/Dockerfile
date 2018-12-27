@@ -61,20 +61,20 @@ RUN FIREFOX_DOWNLOAD_URL=$(if [ $FIREFOX_VERSION = "latest" ] || [ $FIREFOX_VERS
 # Watchman
 # Source: https://github.com/sergiolepore/docker-ember/blob/3.1.3-node_10.0.0/Dockerfile
 #============================================
-# Install watchman build dependencies 
-#RUN \  
-#	apt-get update -y && \
-#	apt-get install -y python-dev
-## install watchman (increase s.inotify.max_user_watches)
-#RUN \
-#	git clone https://github.com/facebook/watchman.git &&\
-#	cd watchman && \
-#	git checkout v4.9.0 && \
-#	./autogen.sh && \
-#	./configure && \
-#	make && \
-#	make install \
-# rm -rf tmp/watchman
+## watchman dependencies 
+RUN apt-get -qqy update \
+    && apt-get -qqy install \
+      python-dev \
+      --no-install-recommends
+# Watchman (increase s.inotify.max_user_watches)
+RUN cd /tmp/ \
+    && git clone https://github.com/facebook/watchman.git watchman \
+    && cd watchman \
+    && git checkout v4.9.0 \
+    && ./autogen.sh \
+    && ./configure \
+    && make \
+    && make install
 
 #============================================
 # Ember
