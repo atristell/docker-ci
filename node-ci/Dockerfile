@@ -61,6 +61,7 @@ RUN FIREFOX_DOWNLOAD_URL=$(if [ $FIREFOX_VERSION = "latest" ] || [ $FIREFOX_VERS
 # Watchman
 # Source: https://github.com/sergiolepore/docker-ember/blob/3.1.3-node_10.0.0/Dockerfile
 #============================================
+ARG WATCHMAN_VERSION=v4.9.0
 ## watchman dependencies 
 RUN apt-get -qqy update \
     && apt-get -qqy install \
@@ -70,7 +71,7 @@ RUN apt-get -qqy update \
 RUN cd /tmp/ \
     && git clone https://github.com/facebook/watchman.git watchman \
     && cd watchman \
-    && git checkout v4.9.0 \
+    && git checkout ${WATCHMAN_VERSION} \
     && ./autogen.sh \
     && ./configure \
     && make \
@@ -97,5 +98,6 @@ RUN yarn -v
 # Browsers
 RUN google-chrome --version
 RUN firefox --version
-
+#wathman
+RUN watchman -v
 CMD ["bash"]
