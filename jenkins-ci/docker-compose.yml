@@ -1,8 +1,8 @@
-version: '3'
+version: '3.2'
 services:
   jenkins:
     image: jenkinsci/blueocean:latest
-    user: root # Need Docker daemon permissions
+    user: root # Need Docker daemon 
     volumes:
       - ./jenkins_home:/var/jenkins_home # Jenkins Home
       - ./npm_cache:/root/.npm # Node Cache
@@ -12,7 +12,16 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock # Docker daemon    
     ports:
       - 8080:8080
+      - 50000:50000
     expose:
       - 8080
+    depends_on:
+      - sonarqube
+  sonarqube:
+    image: sonarqube:6.7-alpine
+    ports:
+      - 9000:9000
+      - 9092:9092
+    container_name: sonarqube
   
 
