@@ -3,3 +3,4 @@
 /jenkins-ci/cypress_cache
 /jenkins-ci/npm_cache
 /jenkins-ci/composer_cache
+/jenkins-ci/sonar_cache

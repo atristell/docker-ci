@@ -83,6 +83,10 @@ RUN cd /tmp/ \
 #RUN \
 #	npm install -g ember-cli@3.6.0
 
+#============================================
+# JQ, JSON processor
+#============================================
+RUN apt-get -y install jq
 
 
 #============================================
@@ -100,4 +104,7 @@ RUN google-chrome --version
 RUN firefox --version
 #wathman
 RUN watchman -v
+# jq
+RUN jq --version
+
 CMD ["bash"]

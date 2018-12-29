@@ -8,8 +8,9 @@ services:
       - ./npm_cache:/root/.npm # Node Cache
       - ./cypress_cache:/root/.cache # Cypress Cache
       - ./composer_cache:/root/.composer # Composer Cache
+      - ./sonar_cache:/root/.sonar # sonar Cache
       - ./jenkins_scripts:/var/jenkins_scripts # Scripts Paths
-      - /var/run/docker.sock:/var/run/docker.sock # Docker daemon    
+      - /var/run/docker.sock:/var/run/docker.sock # Docker daemon
     ports:
       - 8080:8080
       - 50000:50000
@@ -18,7 +19,7 @@ services:
     depends_on:
       - sonarqube
   sonarqube:
-    image: sonarqube:6.7-alpine
+    image: sonarqube:7.1-alpine
     ports:
       - 9000:9000
       - 9092:9092
