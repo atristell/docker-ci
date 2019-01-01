@@ -1,7 +1,9 @@
-# Imagen Base
-FROM node:10.14.2
+##============================================
+# From Node
+#============================================
+ARG NODE_VERSION="10.14.2"
+FROM node:${NODE_VERSION}
 LABEL maintainer "atristell"
-
 
 USER root
 
@@ -30,7 +32,7 @@ RUN apt-get update && \
 #       latest (equivalent to google-chrome-stable)
 #       google-chrome-beta  (pull latest beta)
 #============================================
-ARG CHROME_VERSION="google-chrome-stable"
+ARG CHROME_VERSION="google-chrome-stable=53.0"
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
   && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
   && apt-get update -qqy \
@@ -55,7 +57,8 @@ RUN FIREFOX_DOWNLOAD_URL=$(if [ $FIREFOX_VERSION = "latest" ] || [ $FIREFOX_VERS
   && rm /tmp/firefox.tar.bz2 \
   && mv /opt/firefox /opt/firefox-$FIREFOX_VERSION \
   && ln -fs /opt/firefox-$FIREFOX_VERSION/firefox /usr/bin/firefox
-
+#ADD scripts/xvfb-firefox /usr/bin/xvfb-firefox
+#RUN ln -sf /usr/bin/xvfb-firefox /usr/bin/firefox
 
 #============================================
 # Watchman
@@ -67,15 +70,16 @@ RUN apt-get -qqy update \
     && apt-get -qqy install \
       python-dev \
       --no-install-recommends
+
 # Watchman (increase s.inotify.max_user_watches)
-RUN cd /tmp/ \
-    && git clone https://github.com/facebook/watchman.git watchman \
-    && cd watchman \
-    && git checkout ${WATCHMAN_VERSION} \
-    && ./autogen.sh \
-    && ./configure \
-    && make \
-    && make install
+#RUN cd /tmp/ \
+#    && git clone https://github.com/facebook/watchman.git watchman \
+#    && cd watchman \
+#    && git checkout ${WATCHMAN_VERSION} \
+#    && ./autogen.sh \
+#    && ./configure \
+#    && make \
+#    && make install
 
 #============================================
 # Ember
@@ -94,17 +98,14 @@ RUN apt-get -y install jq
 #============================================
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/cache/apt/* 
 
-# versions of local tools
-RUN node -v
 # NPM version should already be pretty new (> 6.4.0)
-RUN npm -v
-RUN yarn -v
-# Browsers
-RUN google-chrome --version
-RUN firefox --version
-#wathman
-RUN watchman -v
-# jq
-RUN jq --version
+RUN npm -v && yarn -v \
+  && node -v \
+  && google-chrome --version \
+  && firefox --version \
+  #&& watchman -v \
+  && jq --version
+
+
 
 CMD ["bash"]

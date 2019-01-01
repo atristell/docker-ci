@@ -4,3 +4,4 @@
 /jenkins-ci/npm_cache
 /jenkins-ci/composer_cache
 /jenkins-ci/sonar_cache
+/gitlab-ci/*
